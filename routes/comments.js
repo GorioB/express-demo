@@ -1,12 +1,15 @@
 const express = require('express');
-const Comment = require('./models');
+const Comment = require('../models/Comment');
 const router = express.Router({mergeParams: true});
 
 router.get('/', ( req, res) => {
     Comment.find({ orgName: req.params.orgName, active: true })
         .sort('created')
         .then((r) => {
-            res.json({ success: true, text: r});
+            res.json({
+                success: true,
+                comments: r.map((x) => x.comment)
+            });
         });
 });
 
@@ -26,7 +29,11 @@ router.post('/', ( req, res ) => {
 });
 
 router.delete('/', ( req, res ) => {
-    Comment.updateMany({ orgName: req.params.orgName, active: true }, { '$set': { active: false }}, { multi: true }).then((r) => {
+    Comment.updateMany(
+        { orgName: req.params.orgName, active: true },
+        { '$set': { active: false }},
+        { multi: true }
+    ).then((r) => {
         res.json({ success: r.ok ? true : false, modified: r.nModified });
     });
 });

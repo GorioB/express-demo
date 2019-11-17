@@ -3,8 +3,8 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-const members = require('./members');
-const comments = require('./comments');
+const members = require('./routes/members');
+const comments = require('./routes/comments');
 const app = express();
 
 dotenv.config();
@@ -14,9 +14,6 @@ app.use(express.json());
 app.use('/orgs/:orgName/members/', members);
 app.use('/orgs/:orgName/comments/', comments);
 
-// app.listen(port, () => console.log(`App listening on port ${port}`));
-
-mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_STRING, { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => {
         console.log('mongodb started.');
