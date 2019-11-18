@@ -1,39 +1,26 @@
-const request = require('request-promise-native');
 const Octokit = require('@octokit/rest');
 
 
 function get(orgName, gitUser, gitToken) {
-    let octoClient = new Octokit({
-        auth: {
+    octoclientOptions = {}
+    if (gitUser && gitToken) {
+        octoclientOptions.auth = {
             username: gitUser,
             password: gitToken
         }
-    });
+    }
 
-    let options = {
-        headers: {
-            'User-Agent': 'Request-Promise'
-        },
-        json: true,
-    }
-    if (gitUser && gitToken) {
-        options.auth = {
-            user: gitUser,
-            pass: gitToken
-        };
-    }
+    let octoClient = new Octokit(octoclientOptions);
 
     return new Promise(( accept, reject ) => {
         octoClient.paginate('GET /orgs/:org/members', {org: orgName}).then((r) => {
             let data = r;
             let promises = data.map(( val, index ) => {
-                let user_options = options;
-                user_options.uri = val.url;
                 return new Promise(( accept, reject ) => {
-                    request(user_options).then((r) => {
-                        data[index].followers = r.followers;
-                        data[index].following = r.following;
-                        accept([r.followers, r.following]);
+                    octoClient.request('GET :url', {url: val.url}).then((r) => {
+                        data[index].followers = r.data.followers;
+                        data[index].following = r.data.following;
+                        accept([r.data.followers, r.data.following]);
                     }).catch((e) => reject(e));
                 })
             });
