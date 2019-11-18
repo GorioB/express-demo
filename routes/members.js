@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 const express = require('express');
-const request = require('request-promise-native');
 const MembersController = require('../controllers/members');
 
 const router = express.Router({mergeParams: true});

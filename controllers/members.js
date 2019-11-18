@@ -1,9 +1,16 @@
 const request = require('request-promise-native');
+const Octokit = require('@octokit/rest');
 
 
 function get(orgName, gitUser, gitToken) {
+    let octoClient = new Octokit({
+        auth: {
+            username: gitUser,
+            password: gitToken
+        }
+    });
+
     let options = {
-        uri: `https://api.github.com/orgs/${orgName}/members`,
         headers: {
             'User-Agent': 'Request-Promise'
         },
@@ -17,7 +24,7 @@ function get(orgName, gitUser, gitToken) {
     }
 
     return new Promise(( accept, reject ) => {
-        request(options).then((r) => {
+        octoClient.paginate('GET /orgs/:org/members', {org: orgName}).then((r) => {
             let data = r;
             let promises = data.map(( val, index ) => {
                 let user_options = options;

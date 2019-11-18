@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@octokit/rest": "^16.35.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongodb": "^3.3.4",
