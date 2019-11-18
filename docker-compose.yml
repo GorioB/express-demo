@@ -1,0 +1,20 @@
+version: "2"
+services:
+  app:
+    container_name: node-app
+    restart: always
+    build: .
+    ports:
+      - "${PORT}:${PORT}"
+    links:
+      - mongo
+    environment:
+      - GIT_USER=${GIT_USER}
+      - GIT_TOKEN=${GIT_TOKEN}
+      - MONGODB_STRING=${MONGODB_STRING}
+      - PORT=${PORT}
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
