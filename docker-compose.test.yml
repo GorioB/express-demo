@@ -1,0 +1,19 @@
+version: "2"
+services:
+  test:
+    container_name: app-test
+    build: .
+    links:
+      - mongo
+    environment:
+      - GIT_USER=${GIT_USER}
+      - GIT_TOKEN=${GIT_TOKEN}
+      - MONGODB_STRING=${MONGODB_STRING}
+      - MONGODB_TEST=${MONGODB_TEST}
+      - PORT=${PORT}
+    command: npm test
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
