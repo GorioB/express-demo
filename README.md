@@ -3,16 +3,25 @@
 # Set-up
 
 ## .env file
-
 ```
 GIT_USER=<github username>
 GIT_TOKEN=<github personal access token>
 MONGODB_STRING=<mongodb database string ex. mongodb://mongo:27017/db>
+MONGODB_TEST=<test mongodb database>
 PORT=<ex. 3030>
 
 ```
-
 The GitHub Username and Personal Access Token are optional; Otherwise, GitHub rate-limits the API.
+
+## Running Tests
+```
+docker-compose -f docker-compose.test.yml up test
+```
+
+## Starting Services
+```
+docker-compose start
+```
 
 # Usage
 
