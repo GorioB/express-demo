@@ -19,7 +19,7 @@ router.get('/', ( req, res ) => {
     };
     request(options).then((r) => {
         let data = r;
-        let promises = data.map(( val, index) => {
+        let promises = data.map(( val, index ) => {
             let user_options = options;
             user_options.uri = val.url;
             return new Promise(( accept, reject ) => {

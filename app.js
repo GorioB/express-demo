@@ -16,7 +16,7 @@ app.use('/orgs/:orgName/comments/', comments);
 
 mongoose.connect(process.env.MONGODB_STRING, { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => {
-        console.log('mongodb started.');
+        console.log('Connected to Mongodb.');
         app.listen(port, () => {
             console.log(`App listening on port ${port}`);
         });
